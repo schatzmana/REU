@@ -1,7 +1,7 @@
-    # scale_index = float by which to multiply all nums by to scale an object
-    # scale_index = +/- percentage by which to multiple all dimensional nums
-    # i.e. change_size(2) = make object 2^n as big (cube 2*3)
-    # change_size(.5) = half the nums
+# takes in two arguments: scale_index and a .tri file
+# scale_index = float by which to multiply all nums by to scale an object
+# scale_index = +/- percentage by which to multiple all dimensional nums
+# 2,4,6 w/ -.5 => -1.0,-2.0,-3.0
 
 import sys
 
@@ -12,8 +12,10 @@ else:
     scale_index = float(sys.argv[1])
     tri_file = sys.argv[2]
 
-    myfile = open(tri_file)
+    myfile = open(tri_file, "r+")
+    newfile = open("../data/objects/newfile.tri", "w")
     vert_count = int( myfile.readline() )
+    newfile.write(str(vert_count)+"\n")
     print "vertice count: %s" %vert_count
 
     # read each line for the next vert_count lines
@@ -28,7 +30,6 @@ else:
     for each in range(0, vert_count):
         coordinate = myfile.readline().strip('\n')
         vertices.append( coordinate.split() )
-    #print vertices
 
     for vert in range(len(vertices)):
         x = int( vertices[vert][0] )
@@ -36,40 +37,18 @@ else:
         z = int( vertices[vert][2] )
         print x,y,z
 
+        # scaling:
         x *= scale_index
         y *= scale_index
         z *= scale_index
         print x,y,z
 
-"""
         str_xyz = str(x) +" " + str(y) + " " + str(y)
         print str_xyz
-        myfile.write(str_xyz)
-"""
+        newfile.write(str_xyz + "\n")
+
     tri_count = int( myfile.readline() )
     print "tri_count: %s" %tri_count
     # maybe parse triangles and scale them too?
 
-    #
-
-
-"""
-    if scale_index == 0:
-        print "You entered zero. This will not change the size of the object"
-    elif scale_index <0:
-        print "You are making the object smaller"
-    elif scale_index >0:
-        print "You are enlarging the object"
-    else:
-        print "Number is not comparable to ints, may be a string"
-"""
-"""
-    my_file = open(tri_file, "r+")
-    vertice_count = my_file.readline()
-
-    print "vertice count: %s" %vertice_count
-    print int(vertice_count)+1
-
-    my_file.close
-"""
-# added a comment
+    # write out new values to file
