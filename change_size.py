@@ -33,9 +33,9 @@ else:
         vertices.append( coordinate.split() )
 
     for vert in range(len(vertices)):
-        x = int( vertices[vert][0] )
-        y = int( vertices[vert][1] )
-        z = int( vertices[vert][2] )
+        x = float( vertices[vert][0] )
+        y = float( vertices[vert][1] )
+        z = float( vertices[vert][2] )
         print "originals are: ", x, y, z
 
         # scaling:
