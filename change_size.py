@@ -10,11 +10,12 @@ if len(sys.argv) != 3:
 
 else:
     scale_index = float(sys.argv[1])
+    print "scale index= %s" %scale_index
     tri_file = sys.argv[2]
 
-    myfile = open(tri_file, "r+")
+    trifile = open(tri_file, "r+")
     newfile = open("../data/objects/newfile.tri", "w")
-    vert_count = int( myfile.readline() )
+    vert_count = int( trifile.readline() )
     newfile.write(str(vert_count)+"\n")
     print "vertice count: %s" %vert_count
 
@@ -28,27 +29,32 @@ else:
     # where vert1 = ['x', 'y', 'z']
     vertices = []
     for each in range(0, vert_count):
-        coordinate = myfile.readline().strip('\n')
+        coordinate = trifile.readline().strip('\n')
         vertices.append( coordinate.split() )
 
     for vert in range(len(vertices)):
         x = int( vertices[vert][0] )
         y = int( vertices[vert][1] )
         z = int( vertices[vert][2] )
-        print x,y,z
+        print "originals are: ", x, y, z
 
         # scaling:
         x *= scale_index
         y *= scale_index
         z *= scale_index
-        print x,y,z
+        print "scaled coords are: ",x,y,z
 
-        str_xyz = str(x) +" " + str(y) + " " + str(y)
-        print str_xyz
+        str_xyz = str(x) +" " + str(y) + " " + str(z)
+        print "string coords are: " + str_xyz +"\n"
         newfile.write(str_xyz + "\n")
 
-    tri_count = int( myfile.readline() )
+    tri_count = int( trifile.readline() )
+    newfile.write(str(tri_count)+"\n")
     print "tri_count: %s" %tri_count
-    # maybe parse triangles and scale them too?
 
+    # read line by line of triangle coords (verts) & write them
+    for each in range(0, tri_count):
+        tri_coord = trifile.readline()
+        print tri_coord
+        newfile.write(tri_coord)
     # write out new values to file
