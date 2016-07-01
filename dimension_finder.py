@@ -1,6 +1,7 @@
 # correctly compares x,y,z values and prints out min and max for each.
 # Does not write dimensional info to a file.
 # Can easily add that functionality if you just eliminate comments.
+# prints height, width, and depth
 
 import sys
 
