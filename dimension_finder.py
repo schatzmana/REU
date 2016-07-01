@@ -1,3 +1,7 @@
+# correctly compares x,y,z values and prints out min and max for each.
+# Does not write dimensional info to a file.
+# Can easily add that functionality if you just eliminate comments.
+
 import sys
 
 if len(sys.argv) != 2:
@@ -46,6 +50,12 @@ else:
     print "minX: %s, maxX: %s" %(minX, maxX)
     print "minY: %s, maxY: %s" %(minY, maxY)
     print "minZ: %s, maxZ: %s" %(minZ, maxZ)
+
+    height = maxY-minY
+    width = maxX-minX
+    depth = maxZ-minZ
+
+    print "height: %s, width: %s, depth: %s" %(height, width, depth)
 
     """
     print infinit
