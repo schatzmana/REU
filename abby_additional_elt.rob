@@ -1,3 +1,5 @@
+# includes several dimensions appropriate for cubes of different scaling
+
 #converted 2/10/15
 #did some tuning of masses and motor parameters to get stable simulation
 
@@ -24,9 +26,12 @@ Tparent	1 0 0	0 1 0	0 0 1	0 0 0 \
 -0.438381 0.875628 0.202726	-3.22053e-06 0.225553 -0.974231	-0.898789 -0.427085 -0.0988751	-0.03978 0 -0.10071 \
 0.426214 -0.884711 0.188753	-0.102564 0.160049 0.981766	-0.898789 -0.437802 -0.0225245	0.03569 -0.0216 -0.10071 \
 0.400433 -0.896675 -0.188751	0.0978992 -0.162943 0.981766	-0.911081 -0.41161 0.022536	0.03569 0.0216 -0.10071 \
-1 0 0	0 1 0	0 0 1	-.1 -.1 -.45
+1 0 0	0 1 0	0 0 1	-.07 -.05 -.325
 # each \ follows one of 10 things
+# 1. cube -.5 -.5 -1.2
+# .5 cube -.25 -.25 -.7
 # .25 cube -.1 -.1 -.45
+# .125 cube -.07 -.05 -.325 but not totally correct, a bit hard to determine given small size and zero zoom
 # .5 cylinder 0 0 .275
 
 #From wiki.ros.org/jaco:
