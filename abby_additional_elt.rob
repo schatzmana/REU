@@ -1,4 +1,5 @@
 # includes several dimensions appropriate for cubes of different scaling
+# finished cube, non centered maybe and included equation for cube
 
 #converted 2/10/15
 #did some tuning of masses and motor parameters to get stable simulation
@@ -26,15 +27,24 @@ Tparent	1 0 0	0 1 0	0 0 1	0 0 0 \
 -0.438381 0.875628 0.202726	-3.22053e-06 0.225553 -0.974231	-0.898789 -0.427085 -0.0988751	-0.03978 0 -0.10071 \
 0.426214 -0.884711 0.188753	-0.102564 0.160049 0.981766	-0.898789 -0.437802 -0.0225245	0.03569 -0.0216 -0.10071 \
 0.400433 -0.896675 -0.188751	0.0978992 -0.162943 0.981766	-0.911081 -0.41161 0.022536	0.03569 0.0216 -0.10071 \
-1 0 0	0 1 0	0 0 1	-.0625 -.0625 -.233
+1 0 0	0 1 0	0 0 1	0 0 -.2
 # each \ follows one of 10 things
+# a b c, d e f, g h i, j k l
 
-# 1. cube -.5 -.5 -1.11
-# .5 cube -.25 -.25 -.61
-# .25 cube -.125 -.125 -.36
-# .125 cube -.0625 -.0625 -.233 but not totally correct, a bit hard to determine given small size and zero zoom
+# CUBE l value \\ y = x +.11, y = last translational value (l), x = scale factor
+# 1. cube -.5 -.5 -1.10-1.12
+# .5 cube -.25 -.25 -.60-.62
+# .25 cube -.125 -.125 -.35-.37
+# .125 cube -.0625 -.0625 -.23-.24 but not totally correct, a bit hard to determine given small size and zero zoom
+
+# CENTERED CUBE:
+# .25 c cube 0 0 -.22-.24
+# .125 c cube 0 0 -.16-.18
 
 # .5 cylinder 0 0 .275
+# .1 cylinder 0 0 -.2 || coffee canister size
+# .09 cylinder 0 0 -.2
+# .045 cylinder 0 0 -.2 || too small, could maybe use this size to replicate a water bottle if two were stacked atop one another
 
 #From wiki.ros.org/jaco:
 #All the joints have a range limit. Joints 1, 4, 5 and 6 have a range of -10,000 to +10,000 degrees. Joint 2 has a range of +42 to +318 degrees. Joint 3 has a range of +17 to +343 degrees. Sending a command past these limits will cause the arm to move to its hard-wired limit, then stop.
