@@ -21,7 +21,7 @@ else:
         name = "cube"
         j = float(scale) * -0.5
         k = float(scale) * -0.5
-        l = float(scale) + 0.11
+        l = -(float(scale) + 0.11)
 
     # elif tri_file == "../data/objects/cylinder_y.tri":
     # more elifs for different shapes
