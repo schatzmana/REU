@@ -21,6 +21,12 @@ else:
     newfile.write(str(vert_count)+"\n")
     #print "vertice count: %s" %vert_count
 
+    # makes filename that tells num of and scale of new shape, so you can find the new .tri file
+    prefix_len = len('../data/objects/')
+    tri_len = len(tri_file)
+    shape = tri_file[ prefix_len:tri_len] # i.e. "cube.tri"
+    filename = str(num) + "of_" + str(scale_index) + shape
+
     # read each line for the next vert_count lines
     # parse each line into the three x,y,z values
     # multiply each of the three coordinates by scale_index
@@ -111,10 +117,90 @@ else:
 
     """ multiply """
     # take in num shapes
+    writefile = open(filename, "w")
+    newfile.seek(0)
+    writefile.write( str( num *vert_count )+"\n" )
+    # read each line for the next vert_count lines
+    # parse each line into the three x,y,z values
+    # multiply each of the three coordinates by scale_index
+    # either save these new values or write them to a new file
 
-    # makes filename that tells num of and scale of new shape, so you can find the new .tri file
-    prefix_len = len('../data/objects/')
-    tri_len = len(tri_file)
-    shape = tri_file[ prefix_len:tri_len] # i.e. "cube.tri"
-    filename = str(num) + "of_" + str(scale_index) + shape
-    print filename
+    # creates list of list of vertices
+    # [ vert1, vert2, vert3, etc...]
+    # where vert1 = ['x', 'y', 'z']
+    for each in range(0, vert_count):
+        x = float(new_vertices[each][0])
+        y = float(new_vertices[each][1])
+        z = float(new_vertices[each][2])
+        str_xyz = str(x) +" " + str(y) + " " + str(z)
+        #print "string coords are: " + str_xyz +"\n"
+        #print str_xyz
+        newfile.write(str_xyz + "\n")
+    # end of read and write for the first go through
+    # writes scaled coordinates
+
+    # now need to read through again and add vals for next stack
+
+    """ for loop to add vertices and triangles num times """
+    for q in range(1, num):
+        for vert in range(len(new_vertices)):
+            x = float( new_vertices[vert][0] )
+            y = float( new_vertices[vert][1] )
+            z = float( new_vertices[vert][2] )
+            #print "originals are: ", x, y, z
+
+            # adding additional height, only edits 1/3 coords (only y), but could edit them all here
+            #x *= scale_index
+            y += height
+            #z *= scale_index
+            #print "scaled coords are: ",x,y,z
+
+            str_xyz = str(x) +" " + str(y) + " " + str(z)
+            #print "string coords are: " + str_xyz +"\n"
+            #print str_xyz
+            newfile.write(str_xyz + "\n")
+
+    writefile.write(str(tri_count * num)+"\n")
+    #print "tri_count: %s" %tri_count
+
+    """ stopped here but probably need to go back and read through
+    newfile because need to have some way of knowing the number of triangles
+    in order to continue and alter triangles vertices """
+
+
+
+    triangles =[]
+    #stores them so can use later without rereading and adjusting seek()
+    # read line by line of triangle coords (verts) & write them
+    for each in range(0, tri_count):
+        tri_verts = trifile.readline().strip('\n')
+        triangles.append( tri_verts.split() )
+
+    """ writes original triangle coords """
+    for each in range( len(triangles) ):
+        a = int( triangles[each][0] )
+        b = int( triangles[each][1] )
+        c = int( triangles[each][2] )
+
+        str_abc = str(a) +" " + str(b) + " " + str(c)
+        #print "string coords are: " + str_xyz +"\n"
+        #print str_abc
+        newfile.write(str_abc + "\n")
+        # write out new values to file
+
+    """ Repeat ^ to adjust vertices by object's height """
+    for each in range( len(triangles) ):
+        a = int( triangles[each][0] )
+        b = int( triangles[each][1] )
+        c = int( triangles[each][2] )
+
+        # to make new triangles correspond to the correct vertices from the originals
+        # need to just add on total count
+        a += vert_count
+        b += vert_count
+        c += vert_count
+
+        str_abc = str(a) +" " + str(b) + " " + str(c)
+        #print "string coords are: " + str_xyz +"\n"
+        #print str_abc
+        newfile.write(str_abc + "\n")
