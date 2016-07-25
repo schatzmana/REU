@@ -1,6 +1,6 @@
 # takes in scale percentage, object tri file, and num of shapes and will write to the newfile
 # the scaled dimensions and compute the ehight, width, and depth of the new scaled object
-# 
+# Also creates new file name that describes scale and num of shape
 
 import sys
 
@@ -12,6 +12,8 @@ else:
     scale_index = float(sys.argv[1])
     # print "scale index= %s" %scale_index
     tri_file = sys.argv[2]
+    print tri_file
+    num = int(sys.argv[3])
 
     trifile = open(tri_file, "r+")
     newfile = open("../data/objects/newfile.tri", "w+")
@@ -108,4 +110,11 @@ else:
     print "height: %s, width: %s, depth: %s" %(height, width, depth)
 
     """ multiply """
-    # take in num shapesgit a
+    # take in num shapes
+
+    # makes filename that tells num of and scale of new shape, so you can find the new .tri file
+    prefix_len = len('../data/objects/')
+    tri_len = len(tri_file)
+    shape = tri_file[ prefix_len:tri_len] # i.e. "cube.tri"
+    filename = str(num) + "of_" + str(scale_index) + shape
+    print filename
