@@ -1,6 +1,8 @@
 # takes in scale percentage, object tri file, and num of shapes and will write to the newfile
 # the scaled dimensions and compute the ehight, width, and depth of the new scaled object
 # Also creates new file name that describes scale and num of shape
+# makes multiples
+# meant to be run from Klampt/Python when objects are in ../data/objects/
 
 import sys
 
@@ -25,7 +27,7 @@ else:
     prefix_len = len('../data/objects/')
     tri_len = len(tri_file)
     shape = tri_file[ prefix_len:tri_len] # i.e. "cube.tri"
-    filename = str(num) + "of_" + str(scale_index) + shape
+    filename = '../data/objects/' + str(num) + "of_" + str(scale_index) + shape
 
     # read each line for the next vert_count lines
     # parse each line into the three x,y,z values
@@ -60,11 +62,19 @@ else:
     newfile.write(str(tri_count)+"\n")
     # print "tri_count: %s" %tri_count
 
+    triangles = []
     # read line by line of triangle coords (verts) & write them
     for each in range(0, tri_count):
-        tri_coord = trifile.readline()
-        #print tri_coord
-        newfile.write(tri_coord)
+        tri_coord = trifile.readline().strip('\n')
+        triangles.append( tri_coord.split() )
+
+    for vert in range( len(triangles) ):
+        a = int( triangles[vert][0] )
+        b = int( triangles[vert][1] )
+        c = int( triangles[vert][2] )
+
+        str_abc = str(a) +" " + str(b) + " " + str(c)
+        newfile.write(str_abc + "\n")
     # write out new values to file
 
     """ dimension finder """
@@ -119,7 +129,7 @@ else:
     # take in num shapes
     writefile = open(filename, "w")
     newfile.seek(0)
-    writefile.write( str( num *vert_count )+"\n" )
+    writefile.write( str( num * vert_count )+"\n" )
     # read each line for the next vert_count lines
     # parse each line into the three x,y,z values
     # multiply each of the three coordinates by scale_index
@@ -128,6 +138,8 @@ else:
     # creates list of list of vertices
     # [ vert1, vert2, vert3, etc...]
     # where vert1 = ['x', 'y', 'z']
+    count = 0
+
     for each in range(0, vert_count):
         x = float(new_vertices[each][0])
         y = float(new_vertices[each][1])
@@ -135,14 +147,16 @@ else:
         str_xyz = str(x) +" " + str(y) + " " + str(z)
         #print "string coords are: " + str_xyz +"\n"
         #print str_xyz
-        newfile.write(str_xyz + "\n")
+        writefile.write(str_xyz + "\n")
+    count += 1
+    print "count is: " + str(count)
     # end of read and write for the first go through
     # writes scaled coordinates
 
     # now need to read through again and add vals for next stack
 
     """ for loop to add vertices and triangles num times """
-    for q in range(1, num):
+    while count < num:
         for vert in range(len(new_vertices)):
             x = float( new_vertices[vert][0] )
             y = float( new_vertices[vert][1] )
@@ -151,14 +165,16 @@ else:
 
             # adding additional height, only edits 1/3 coords (only y), but could edit them all here
             #x *= scale_index
-            y += height
+            y += ( height * count)
             #z *= scale_index
-            #print "scaled coords are: ",x,y,z
+            #print "scaled print "count is: " + str(count)coords are: ",x,y,z
 
             str_xyz = str(x) +" " + str(y) + " " + str(z)
             #print "string coords are: " + str_xyz +"\n"
             #print str_xyz
-            newfile.write(str_xyz + "\n")
+            writefile.write(str_xyz + "\n")
+        count += 1
+        print "count is: " + str(count)
 
     writefile.write(str(tri_count * num)+"\n")
     #print "tri_count: %s" %tri_count
@@ -167,16 +183,10 @@ else:
     newfile because need to have some way of knowing the number of triangles
     in order to continue and alter triangles vertices """
 
-
-
-    triangles =[]
     #stores them so can use later without rereading and adjusting seek()
     # read line by line of triangle coords (verts) & write them
-    for each in range(0, tri_count):
-        tri_verts = trifile.readline().strip('\n')
-        triangles.append( tri_verts.split() )
-
     """ writes original triangle coords """
+    count = 0
     for each in range( len(triangles) ):
         a = int( triangles[each][0] )
         b = int( triangles[each][1] )
@@ -185,22 +195,25 @@ else:
         str_abc = str(a) +" " + str(b) + " " + str(c)
         #print "string coords are: " + str_xyz +"\n"
         #print str_abc
-        newfile.write(str_abc + "\n")
-        # write out new values to file
+        writefile.write(str_abc + "\n")
+    count += 1
+    # write out new values to file
 
     """ Repeat ^ to adjust vertices by object's height """
-    for each in range( len(triangles) ):
-        a = int( triangles[each][0] )
-        b = int( triangles[each][1] )
-        c = int( triangles[each][2] )
+    while count < num:
+        for each in range( len(triangles) ):
+            a = int( triangles[each][0] )
+            b = int( triangles[each][1] )
+            c = int( triangles[each][2] )
 
-        # to make new triangles correspond to the correct vertices from the originals
-        # need to just add on total count
-        a += vert_count
-        b += vert_count
-        c += vert_count
+            # to make new triangles correspond to the correct vertices from the originals
+            # need to just add on total count
+            a += (vert_count * count)
+            b += (vert_count * count)
+            c += (vert_count * count)
 
-        str_abc = str(a) +" " + str(b) + " " + str(c)
-        #print "string coords are: " + str_xyz +"\n"
-        #print str_abc
-        newfile.write(str_abc + "\n")
+            str_abc = str(a) +" " + str(b) + " " + str(c)
+            #print "string coords are: " + str_xyz +"\n"
+            #print str_abc
+            writefile.write(str_abc + "\n")
+        count += 1
