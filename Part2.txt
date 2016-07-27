@@ -1,0 +1,13 @@
+
+#From wiki.ros.org/jaco:
+#All the joints have a range limit. Joints 1, 4, 5 and 6 have a range of -10,000 to +10,000 degrees. Joint 2 has a range of +42 to +318 degrees. Joint 3 has a range of +17 to +343 degrees. Sending a command past these limits will cause the arm to move to its hard-wired limit, then stop.
+#it looks like joints 1 and 2 are bent by 90 degrees at the zero configuration...
+#also the reference frame looks backwards
+qmin	0 0 -3.97935067 -4.41568301 0 0 0 0 0 0 0
+# count: 10
+
+qmax	0 6.283 0.83775803 1.274090357 6.283 6.283 0 0 0 0 0
+# count: 10
+
+q	0 0 0 0 0 0 0 0 0 0 0
+# count: 10
