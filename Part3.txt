@@ -1,0 +1,50 @@
+# count: 10
+
+# count: 10
+mass	1.2 1 1 1 0.5 0.3 0.4 0.1 0.1 0.1 0.1
+automass
+
+torquemax	inf 50 50 40 40 30 20 .7 .7 .7 .7
+# count: 9 why??????
+
+#8rpm
+velmax	0 .419 .419 .419 .419 .419 .419 1 1 1 1
+# count: 10
+
+accmax	0 4 4 4 4 4 4 4 4 4 4
+# count: 10
+
+
+joint weld 0
+joint spin 1
+joint spin 2
+joint spin 3
+joint spin 4
+joint spin 5
+joint spin 6
+joint normal 7
+joint normal 8
+joint normal 9
+joint normal 10
+# count: 10
+
+driver normal 1
+driver normal 2
+driver normal 3
+driver normal 4
+driver normal 5
+driver normal 6
+driver normal 7
+driver normal 8
+driver normal 9
+driver normal 10
+# count: 9 why??????
+
+servoP	200 200 100 100 70 50 20 20 20 20
+servoI	0 0 0 0 0 0 0 0 0 0
+servoD	30 30 10 10 5 3 1 1 1 1
+# all three above count: 9 why??????
+
+dryFriction	0 0 0 0 0 0 0 0 0 0
+viscousFriction	2 2 1.5 1.5 1.5 1 1 1 1 1
+# both above have count of 9 why??????
