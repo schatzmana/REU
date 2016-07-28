@@ -6,7 +6,7 @@
 # then makes rob file with that new .tri file as the link for the grasped object bounding box.
 
 # Limitations:
-# currently only centers object correctly on hand for cubes, but not other shapes....
+# currently only centers object correctly on hand for cylinder_y & cubes, but not other shapes....
 # need to add that capability for other shapes
 
 # Note: need to have the Part1.txt, Part2.txt, and Part3.txt all in the Python folder as well for making the .rob file
@@ -199,14 +199,18 @@ else:
         count += 1
 
 
-    """ write new .rob file with above constructed filename """
-    # ADD FUNCTIONALITY FOR CENTERING OBJECTS ON HAND FOR OTHER OBJECTS HERE
-    # only knows how to center with cubes that are NOT STACKED (num =1) thus far...
-    if tri_file == "../data/objects/cube.tri": #may need to switch this later to allow access from different directories
+    """ write new .rob file with above filename """
+    # creates new translational vectors for each shape to center object on hand
+    if tri_file == "../data/objects/cube.tri":
         j = float(scale_index) * -0.5
-        k = float(scale_index) * -0.5
-        l = -(float(scale_index) + 0.11)
-    else: #temporary, change this later!! Just a default for all shapes other than cubes
+        k = ( -0.5 * num * height ) #float(scale_index) * -0.5
+        l = (-1.0 * scale_index - 0.11)
+    elif tri_file == "../data/objects/cylinder_y.tri":
+        j = 0
+        k = ( -0.5 * num * height ) + (height/2)
+        l = (-1.0 * scale_index) - 0.11
+    # ADD FUNCTIONALITY FOR CENTERING OBJECTS ON HAND FOR OTHER OBJECTS HERE
+    else: #temporary, change this later... Just a default for all shapes other than cubes/cylinder_y
         j = 0
         k = 0
         l = 0
@@ -226,3 +230,7 @@ else:
     links = str('geometry	"jaco/jaco_link_base.tri" "jaco/jaco_link_1.tri" "jaco/jaco_link_2.tri" "jaco/jaco_link_3.tri" "jaco/jaco_link_4.tri" "jaco/jaco_link_5.tri" "jaco/jaco_link_hand.tri" "jaco/jaco_link_finger_1.tri" "jaco/jaco_link_finger_2.tri" "jaco/jaco_link_finger_3.tri" ')+'"'+ geom_link_filename + '"'
     rob_newfile.write( links + "\n")
     rob_newfile.write( robtext3.read() )
+
+    # info about other shapes:
+    # flat_foot.tri is behind fingers, need to push outward
+    # centered cube is no longer centered
