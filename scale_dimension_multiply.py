@@ -1,16 +1,16 @@
 # Command line: python, scale_dimension_multiply.py, scale percentage float, object tri file, and int num of object
 
 # Functionality:
-# Takes object tri file and scales it to float user sends in as "scale percentage" and puts that into a new file named to describe the num and scale of object (see "filename" variable below)
+# Takes object tri file and scales it to float user sends in as "scale percentage" (puts this in newfile)
+# then stacks the objects num times, and puts that into a new file named to describe the num and scale of object (see "filename" variable below)
+# then makes rob file with that new .tri file as the link for the grasped object bounding box.
+
+# Limitations:
+# currently only centers object correctly on hand for cubes, but not other shapes....
+# need to add that capability for other shapes
 
 # Note: need to have the Part1.txt, Part2.txt, and Part3.txt all in the Python folder as well for making the .rob file
-
-
-# to the newfile then scales dimensions and computes the height, width, and depth of the new scaled object
-# Also creates new file name that describes scale and num of shape
-# makes multiples
-
-# meant to be run from Klampt/Python when objects are in ../data/objects/
+# This file meant to be run from Klampt/Python when objects are in ../data/objects/.
 
 import sys
 
@@ -56,17 +56,18 @@ else:
         vertices.append( coordinate.split() )
 
     for vert in range(len(vertices)):
-        x = float( vertices[vert][0] )
-        y = float( vertices[vert][1] )
-        z = float( vertices[vert][2] )
-
         # scaling:
-        x *= scale_index
-        y *= scale_index
-        z *= scale_index
+        vertices[vert][0] = float( vertices[vert][0] ) * scale_index
+        vertices[vert][1] = float( vertices[vert][1] ) * scale_index
+        vertices[vert][2] = float( vertices[vert][2] ) * scale_index
+
+        x = vertices[vert][0]
+        y = vertices[vert][1]
+        z = vertices[vert][2]
 
         str_xyz = str(x) +" " + str(y) + " " + str(z)
         newfile.write(str_xyz + "\n")
+        #print str_xyz
 
     tri_count = int( trifile.readline() )
     newfile.write(str(tri_count)+"\n")
@@ -200,12 +201,12 @@ else:
 
     """ write new .rob file with above constructed filename """
     # ADD FUNCTIONALITY FOR CENTERING OBJECTS ON HAND FOR OTHER OBJECTS HERE
-    # only knows how to center with cubes thus far...
+    # only knows how to center with cubes that are NOT STACKED (num =1) thus far...
     if tri_file == "../data/objects/cube.tri": #may need to switch this later to allow access from different directories
         j = float(scale_index) * -0.5
         k = float(scale_index) * -0.5
         l = -(float(scale_index) + 0.11)
-    else: #temporary, change this later!!
+    else: #temporary, change this later!! Just a default for all shapes other than cubes
         j = 0
         k = 0
         l = 0
